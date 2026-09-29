@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Baddhu</string>
+    <string name="baddhu_logo_desc">Baddhu</string>
+    <string name="baddhu_tagline">use instagram,\nnot the way zuck intended</string>
+    <string name="chooser_title">Send a photo or video</string>
+    <string name="error_no_browser">No app on this device can open that link.</string>
+    <string name="error_no_file_picker">No app on this device can pick media.</string>
+    <string name="error_renderer_gone">Instagram\'s page crashed and has been reloaded.</string>
+</resources>

@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "updatedAt": "2026-09-29",
+  "homeUrl": "https://www.instagram.com/direct/inbox/",
+  "userAgent": "",
+  "_uaNote": [
+    "Empty means: use the real Android WebView user agent, unspoofed.",
+    "A spoofed desktop UA claims an engine the WebView is not, and Instagram can",
+    "compare the UA string against the actual TLS/JA3 and JS-API fingerprint.",
+    "Set a value here only if you have verified login still completes."
+  ],
+  "_notes": [
+    "Bundled fallback. The remote rules file at BuildConfig.RULES_URL takes precedence when set.",
+    "homeUrl must stay on instagram.com or over HTTPS; the loader rejects anything else.",
+    "allowPathPrefixes gates the route guard. Anything NOT listed is redirected to homeUrl",
+    "once an Instagram session cookie exists. Login and challenge paths must remain listed.",
+    "hideLabels are English-only and break under non-English locales. Prefer href rules.",
+    "blockedPathPrefixes returns HTTP 403 to Instagram's own calls. Keep it strictly to",
+    "telemetry. Do NOT block /async_critical_notices/ (that is the system Instagram uses to",
+    "surface 'Suspicious Login Attempt') or /api/v1/qe/ (client bootstrap config) -- blocking",
+    "either wedges the login SPA and the page just reloads forever."
+  ],
+  "allowPathPrefixes": [
+    "/direct/",
+    "/accounts/",
+    "/challenge/",
+    "/two_factor/",
+    "/p/",
+    "/reel/",
+    "/stories/",
+    "/highlights/",
+    "/api/"
+  ],
+  "hideExactHrefs": [
+    "/",
+    "/explore",
+    "/explore/",
+    "/reels",
+    "/reels/",
+    "/create/",
+    "/accounts/one/",
+    "/accounts/saved/"
+  ],
+  "hideHrefPrefixes": [
+    "/explore/",
+    "/reels/",
+    "/create/"
+  ],
+  "hideHrefSuffixes": [],
+  "hideSelectors": [],
+  "hideLabels": [
+    "Home",
+    "Explore",
+    "Reels",
+    "Search",
+    "Create",
+    "Shopping"
+  ],
+  "blockedHosts": [
+    "google-analytics.com",
+    "googletagmanager.com",
+    "doubleclick.net",
+    "scorecardresearch.com"
+  ],
+  "blockedPathPrefixes": [
+    "/logging/",
+    "/api/v1/ads/",
+    "/async_ads_privacy/"
+  ]
+}

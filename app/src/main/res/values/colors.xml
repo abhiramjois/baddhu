@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="window_background">#DE3163</color>
+    <color name="baddhu_pink">#DE3163</color>
+    <color name="baddhu_ink">#FFFFFF</color>
+    <color name="baddhu_pink_dark">#B02350</color>
+    <color name="baddhu_pink_light">#F7B6CC</color>
+</resources>

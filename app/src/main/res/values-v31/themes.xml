@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Baddhu" parent="@android:style/Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@drawable/launch_background</item>
+        <item name="android:statusBarColor">@color/baddhu_pink</item>
+        <item name="android:navigationBarColor">@color/baddhu_pink</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <item name="android:windowSplashScreenBackground">@color/baddhu_pink</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/baddhu_splash_logo</item>
+    </style>
+</resources>

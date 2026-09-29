@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/baddhu_pink" />
+    <item
+        android:drawable="@drawable/baddhu_splash_logo"
+        android:gravity="center" />
+</layer-list>
