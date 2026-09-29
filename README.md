@@ -105,4 +105,8 @@ This project is not affiliated with, endorsed by, or sponsored by Instagram or M
 
 ## License
 
-Not yet licensed. All rights reserved until a license is chosen.
+[MIT](LICENSE) © 2026 abhiramjois
+
+Note that the license covers the Baddhu source code only. It does not grant any rights to
+Instagram content, and it does not change Instagram's Terms of Use, which you are still
+responsible for following when you use this app.
