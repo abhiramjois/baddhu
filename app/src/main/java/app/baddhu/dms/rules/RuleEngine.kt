@@ -150,8 +150,10 @@ private fun buildScript(rules: Rules): String {
   var STYLE_ID = '__baddhu_css';
   var pending = 0;
   var reelWatch = 0;
-  // how far a finger may drift before a tap becomes a swipe (px)
-  var DRAG_SLOP_PX = 12;
+  // How far a finger may drift before a tap becomes a swipe (px). This has to be
+  // *tighter* than Chrome's own touch slop, not looser -- see the touchmove
+  // handler below.
+  var DRAG_SLOP_PX = 6;
 
   function allowed(path) {
     for (var i = 0; i < R.allow.length; i++) {
@@ -256,6 +258,24 @@ private fun buildScript(rules: Rules): String {
   // never synthesises the follow-up click. Mouse still worked, which is why this
   // looked like "only touch is broken". So touchstart only records a position, and
   // only an unambiguous vertical drag gets cancelled.
+  //
+  // Cancelling the moves is only half the job, though, and getting that half wrong
+  // is what made the lock look decorative -- the pager still advanced to the next
+  // reel. Two separate leaks, both of which had to go:
+  //
+  //   1. The handler used to bail out as soon as `dragging` was set, so exactly
+  //      ONE touchmove per gesture was ever cancelled. Chrome starts a scroll on
+  //      the first touchmove that is both out of its own slop and uncancelled, and
+  //      once the scroll has begun it ignores cancellation on later moves. So every
+  //      move after the first went straight through to the next reel. A lock has
+  //      to hold the whole gesture, not a single event in it.
+  //
+  //   2. The slop has to be tighter than Chrome's, not looser. Chrome scales its
+  //      8dp touch slop by the device pixel ratio -- about 22px on a Pixel 7 -- so
+  //      the old 12px threshold left a window (roughly 12px to 22px of movement)
+  //      where a move was already out of Chrome's slop but still under ours. That
+  //      move went uncancelled, Chrome began the scroll, and per leak 1 nothing
+  //      after it could stop it. The lock now engages before Chrome's slop does.
   var dragStartY = -1;
   var dragging = false;
   document.addEventListener('touchstart', function (e) {
@@ -267,9 +287,9 @@ private fun buildScript(rules: Rules): String {
     dragging = false;
   }, { passive: true, capture: true });
   document.addEventListener('touchmove', function (e) {
-    if (dragStartY < 0 || dragging) { return; }
+    if (dragStartY < 0) { return; }
     if (!e.touches || !e.touches.length) { return; }
-    if (Math.abs(e.touches[0].clientY - dragStartY) > DRAG_SLOP_PX) {
+    if (dragging || Math.abs(e.touches[0].clientY - dragStartY) > DRAG_SLOP_PX) {
       dragging = true;
       e.preventDefault();
     }
@@ -282,6 +302,13 @@ private fun buildScript(rules: Rules): String {
     dragStartY = -1;
     dragging = false;
   }, { passive: true, capture: true });
+
+  // A mouse or trackpad never fires touch events at all, so the drag lock above
+  // never sees it: a wheel tick inside the pager scrolls it exactly as a swipe
+  // did. Same lock, other input path.
+  document.addEventListener('wheel', function (e) {
+    if (pagerHolds(e.target)) { e.preventDefault(); }
+  }, { passive: false, capture: true });
 
   function guard() {
     syncReel();
